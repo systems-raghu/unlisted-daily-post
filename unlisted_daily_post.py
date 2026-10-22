@@ -138,7 +138,7 @@ IMPORTANT TONE & JARGON RULE:
 - Economic Anchor: Replaces a ₹25,000–₹35,000/mo junior SDR for ₹8,000/mo flat.
 - Risk-Reversal Offer: "Test on your niche 1 week free. If it books meetings, pay ₹8,000. If not, ₹0 and keep the leads."
 
-OUTPUT FORMAT (You must output EXACTLY the following 4 labeled sections using these exact headers):
+OUTPUT FORMAT (You must output EXACTLY the following 5 labeled sections using these exact headers):
 
 === 1. TODAY'S DIRECTIVE & GROWTH STACK ===
 - 3 clear bullet points: Step-by-step instructions for Ram on what to execute today in 15 minutes.
@@ -164,6 +164,17 @@ OUTPUT FORMAT (You must output EXACTLY the following 4 labeled sections using th
 - A 1-to-1 cold WhatsApp message Ram can send directly to 5 agency founders who serve {niche_info['niche']}.
 - Permissionless value: "Hey [Name], ran a live scan across [City] and pulled 3 verified clinic/business owner WhatsApp direct lines this morning: [Lead 1, Lead 2, Lead 3]. Have 30 more in a sheet. Free to test if your team wants?"
 - Under 90 words. Zero pitch, 100% value.
+
+=== 5. PIGGYBACK PROTOCOL (TOP CREATORS & READY-TO-PASTE COMMENTS) ===
+Select 2-3 top creators relevant to Indian agencies, founders, and growth (choose dynamically from: Vaibhav Sisinty, Saheli Chatterjee, Jasmin Alic, Lara Acosta, Matt Gray, Varun Mayya, Kshitij Ladia, Justin Welsh, Ruben Hassid).
+For each creator provide:
+• Creator: [Name] | Profile: [linkedin.com/in/handle] | Today's Context: [1 sentence on why their audience cares today]
+• Outperforming Comment: A 3-4 line masterclass comment designed to become the #1 upvoted top comment on their post.
+  Formula:
+  1) Immediate pattern interrupt / counter-intuitive agreement.
+  2) A hard receipt/data point from Unlisted's real outbound testing in India (e.g., 68% reply rate on founder WhatsApp vs 4% on cold email; or junior SDRs costing ₹35k/mo to book 2 calls).
+  3) A punchy takeaway or low-friction question that makes other readers like and reply.
+  Tone: Authoritative technical operator / builder who shows receipts. No sycophancy (NO "Great post!", NO "Thanks for sharing!").
 """
 
 def parse_sections(raw_text):
@@ -171,7 +182,8 @@ def parse_sections(raw_text):
         "directive": "",
         "whatsapp": "",
         "linkedin": "",
-        "trojan": ""
+        "trojan": "",
+        "piggyback": ""
     }
     headers = re.findall(r'===\s*([^=\n]+)\s*===', raw_text)
     bodies = re.split(r'===\s*[^=\n]+\s*===', raw_text)[1:]
@@ -187,6 +199,8 @@ def parse_sections(raw_text):
             sections["linkedin"] = b_clean
         elif "trojan" in h_lower or "outbound" in h_lower:
             sections["trojan"] = b_clean
+        elif "piggyback" in h_lower or "creator" in h_lower:
+            sections["piggyback"] = b_clean
 
     if not sections["whatsapp"] and not sections["linkedin"]:
         sections["whatsapp"] = raw_text.strip()
@@ -200,6 +214,7 @@ def build_html_email(niche_info, raw_text):
     whatsapp_html = html.escape(sections["whatsapp"]).replace("\n", "<br>")
     linkedin_html = html.escape(sections["linkedin"]).replace("\n", "<br>")
     trojan_html = html.escape(sections["trojan"]).replace("\n", "<br>")
+    piggyback_html = html.escape(sections["piggyback"]).replace("\n", "<br>")
 
     return f"""<!DOCTYPE html>
 <html>
@@ -222,6 +237,7 @@ def build_html_email(niche_info, raw_text):
   .linkedin-title {{ color: #38bdf8; }}
   .trojan-title {{ color: #f59e0b; }}
   .directive-title {{ color: #a855f7; }}
+  .piggyback-title {{ color: #10b981; }}
   .copy-block {{ background: #0f172a; border: 1px solid #334155; border-radius: 8px; padding: 16px; font-family: -apple-system, BlinkMacSystemFont, monospace, sans-serif; font-size: 13px; line-height: 1.6; color: #e2e8f0; white-space: pre-wrap; word-break: break-word; user-select: all; }}
   .meta-info {{ font-size: 12px; color: #94a3b8; line-height: 1.5; }}
 </style>
@@ -263,6 +279,13 @@ def build_html_email(niche_info, raw_text):
       <div class="card-title trojan-title">⚔️ 4. Direct Outbound Trojan Horse Pitch (Send to 5 Agency Founders)</div>
     </div>
     <div class="copy-block">{trojan_html}</div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title piggyback-title">🚀 5. The Lara Acosta Piggyback Protocol (2-3 Creators to Hijack)</div>
+    </div>
+    <div class="copy-block">{piggyback_html}</div>
   </div>
 </div>
 </body>

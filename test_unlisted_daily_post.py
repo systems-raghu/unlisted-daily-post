@@ -27,6 +27,7 @@ class TestUnlistedDailyPost(unittest.TestCase):
         self.assertIn("=== 2. WHATSAPP COMMUNITY POST ===", prompt)
         self.assertIn("=== 3. LINKEDIN AUTHORITY POST ===", prompt)
         self.assertIn("=== 4. DIRECT OUTBOUND TROJAN HORSE PITCH ===", prompt)
+        self.assertIn("=== 5. PIGGYBACK PROTOCOL (TOP CREATORS & READY-TO-PASTE COMMENTS) ===", prompt)
         self.assertIn("Ban-Proof", prompt)
         self.assertIn("Zero Passwords", prompt)
 
@@ -46,12 +47,17 @@ Comment 'DATA' to test free.
 
 === 4. DIRECT OUTBOUND TROJAN HORSE PITCH ===
 Hey [Name], pulled 3 verified clinic numbers: [1, 2, 3]. Want the sheet?
+
+=== 5. PIGGYBACK PROTOCOL (TOP CREATORS & READY-TO-PASTE COMMENTS) ===
+Creator: Vaibhav Sisinty | Profile: linkedin.com/in/vaibhavsisinty
+Outperforming Comment: Stop burning money on ads when WhatsApp has a 68% reply rate.
 """
         sections = unlisted_daily_post.parse_sections(raw)
         self.assertIn("Step 1: Post in groups", sections["directive"])
         self.assertIn("Why cold emails fail", sections["whatsapp"])
         self.assertIn("Most agencies waste", sections["linkedin"])
         self.assertIn("Hey [Name], pulled 3", sections["trojan"])
+        self.assertIn("Vaibhav Sisinty", sections["piggyback"])
 
         sample_niche = unlisted_daily_post.NICHES[0]
         html_out = unlisted_daily_post.build_html_email(sample_niche, raw)
@@ -60,6 +66,7 @@ Hey [Name], pulled 3 verified clinic numbers: [1, 2, 3]. Want the sheet?
         self.assertIn("Why cold emails fail", html_out)
         self.assertIn("Most agencies waste", html_out)
         self.assertIn("Hey [Name], pulled 3", html_out)
+        self.assertIn("Vaibhav Sisinty", html_out)
 
     @patch.dict(os.environ, {}, clear=True)
     def test_draft_post_missing_api_key(self):
