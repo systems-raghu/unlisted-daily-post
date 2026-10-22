@@ -27,7 +27,9 @@ class TestUnlistedDailyPost(unittest.TestCase):
         self.assertIn("=== 2. WHATSAPP COMMUNITY POST ===", prompt)
         self.assertIn("=== 3. LINKEDIN AUTHORITY POST ===", prompt)
         self.assertIn("=== 4. DIRECT OUTBOUND TROJAN HORSE PITCH ===", prompt)
-        self.assertIn("DPDP Act 2023", prompt)
+        # Verify plain-English buyer benefits instead of legal acts
+        self.assertIn("Ban-Proof", prompt)
+        self.assertIn("Zero Passwords", prompt)
 
     def test_parse_sections_and_html(self):
         raw = """=== 1. TODAY'S DIRECTIVE & GROWTH STACK ===
