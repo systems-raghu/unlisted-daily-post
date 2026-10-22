@@ -39,7 +39,7 @@ Psychology: Contrast bias
 
 === 2. WHATSAPP COMMUNITY POST ===
 *Why cold emails fail* in Mumbai.
-Test 2 weeks free. Drop your niche.
+Test 1 week free. Drop your niche.
 
 === 3. LINKEDIN AUTHORITY POST ===
 Most agencies waste ₹30,000/mo on SDRs.
